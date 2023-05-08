@@ -55,6 +55,9 @@ $route['translate_uri_dashes'] = FALSE;
 // Routing
 // Auth
 $route['login'] = 'AuthController/index';
+$route['onLogin'] = 'AuthController/onLogin';
+$route['register'] = 'AuthController/register';
+$route['onRegister'] = 'AuthController/onRegister';
 // Dashboard
 $route['dashboard'] = 'DashboardController/index';
 // Kategori

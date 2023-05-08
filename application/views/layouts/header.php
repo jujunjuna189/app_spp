@@ -13,4 +13,4 @@
     <script src="<?= base_url('assets/js/jquery/jquery-3.6.3.min.js') ?>"></script>
 </head>
 
-<body class="bg-primary-light">
+<body class="bg-primary-light" style="overflow-x: hidden;">
