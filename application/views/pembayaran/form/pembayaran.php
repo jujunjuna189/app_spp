@@ -15,6 +15,7 @@
                                     </svg>
                                 </span>
                             </div>
+                            <small class="text-danger">Tekan Enter Untuk Mencari</small>
                         </div>
                     </form>
                 </div>
@@ -27,26 +28,26 @@
                             <hr>
                             <div class="mb-1">
                                 <small>Nama Siswa</small>
-                                <div class="bg-primary-light p-2 fw-semibold rounded-2">
-                                    Aas Latipah
+                                <div class="bg-primary-light p-2 fw-semibold rounded-2" id="siswa-nama-lengkap">
+                                    -
                                 </div>
                             </div>
                             <div class="mb-1">
                                 <small>Kategori</small>
-                                <div class="bg-primary-light p-2 fw-semibold rounded-2">
-                                    Bu Asih
+                                <div class="bg-primary-light p-2 fw-semibold rounded-2" id="siswa-kategori">
+                                    -
                                 </div>
                             </div>
                             <div class="mb-1">
                                 <small>Kelas</small>
-                                <div class="bg-primary-light p-2 fw-semibold rounded-2">
-                                    Kelas 1
+                                <div class="bg-primary-light p-2 fw-semibold rounded-2" id="siswa-kelas">
+                                    -
                                 </div>
                             </div>
                             <div class="mb-1">
                                 <small>No Hp</small>
-                                <div class="bg-primary-light p-2 fw-semibold rounded-2">
-                                    0878-3060-5862
+                                <div class="bg-primary-light p-2 fw-semibold rounded-2" id="siswa-no_hp">
+                                    -
                                 </div>
                             </div>
                         </div>
@@ -137,14 +138,115 @@
         </div>
     </div>
 </div>
+<!-- Modal Search -->
+<div class="modal fade" id="modal-search" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-4">
+            <div class="modal-body">
+                <h5>List Siswa</h5>
+                <hr>
+                <div class="mt-3" id="list-siswa">
+                    <div class="p-2 border border-light-subtle rounded-3">Data Tidak Ditemukan</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Script -->
 <script>
+    const config = {
+        get_search: '<?= base_url('siswa/get-by-search?search=') ?>',
+    };
+
     const elements = {
         field_search: '#search',
+        list_siswa: '#list-siswa',
+        siswaView: {
+            nama_lengkap: '#siswa-nama-lengkap',
+            kategori: '#siswa-kategori',
+            kelas: '#siswa-kelas',
+            no_hp: '#siswa-no_hp',
+        },
     };
+
+    const modal = {
+        search: '#modal-search',
+    };
+
+    const dataServer = {
+        siswa: [],
+    };
+
+    const hitUrl = ({
+        url,
+        callback
+    }) => {
+        let route = url;
+        $.ajax({
+            url: route,
+            type: 'get',
+            dataType: 'json',
+            success: (response) => {
+                callback(response);
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        });
+    }
+
+    const openModal = (idElement) => {
+        $(idElement).modal('show');
+    }
 
     const onSearch = (event) => {
         event.preventDefault();
-        console.log($(elements.field_search).val());
+        const value = $(elements.field_search).val();
+        onGetSiswa(value);
+    }
+
+    const onGetSiswa = async (search) => {
+        await hitUrl({
+            url: config.get_search + search,
+            callback: (res) => {
+                dataServer.siswa = res;
+                openModal(modal.search);
+                settingListSiswa(res);
+            }
+        });
+    }
+
+    const settingListSiswa = (array) => {
+        $(elements.list_siswa).empty();
+        $.each(array, function(i, item) {
+            let view = renderListSiswa(item);
+
+            $(elements.list_siswa).append(view);
+        });
+    }
+
+    const renderListSiswa = (item) => {
+        let view = '';
+
+        view = '<div class="p-2 border border-light-subtle rounded-3 mb-2">' +
+            '<div class="d-flex justify-content-between align-items-center">' +
+            '<div>' + item.nama_lengkap + '<div><small>' + item.no_hp + '</small></div></div>' +
+            '<div class="btn btn-primary" onclick="clickItemSiswa(\'' + item.id + '\')">Pilih</div>' +
+            '</div>' +
+            '</div>';
+
+        return view;
+    }
+
+    const clickItemSiswa = (id) => {
+        const siswa = dataServer.siswa.find((item) => item.id === id);
+        setSiswaView(siswa);
+    }
+
+    const setSiswaView = (item) => {
+        $(elements.siswaView.nama_lengkap).html(item.nama_lengkap);
+        $(elements.siswaView.kategori).html(item.jenis_kategori);
+        $(elements.siswaView.kelas).html(item.nama_kelas);
+        $(elements.siswaView.no_hp).html(item.no_hp);
     }
 </script>

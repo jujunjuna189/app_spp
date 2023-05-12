@@ -83,6 +83,7 @@ $route['siswa'] = 'SiswaController/index';
 $route['siswa/detail'] = 'SiswaController/detail';
 $route['siswa/store'] = 'SiswaController/store';
 $route['siswa/get-by-id'] = 'SiswaController/getById';
+$route['siswa/get-by-search'] = 'SiswaController/getBySearch';
 $route['siswa/update'] = 'SiswaController/update';
 $route['siswa/delete'] = 'SiswaController/delete';
 // Pembayaran

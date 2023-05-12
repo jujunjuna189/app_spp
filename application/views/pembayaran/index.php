@@ -18,28 +18,34 @@
                     <thead class="text-primary table-light fw-bold">
                         <tr>
                             <th>No</th>
-                            <th>Jenis Kategori</th>
-                            <th>Harga Infoq</th>
-                            <th>Harga Makan</th>
-                            <th>Harga Semester</th>
+                            <th>Tanggal</th>
+                            <th>Nama Siswa</th>
+                            <th>Kelas</th>
+                            <th>Kategori</th>
+                            <th>Nominal</th>
+                            <th>Alamat</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="fw-semibold text-dark-emphasis">
                         <tr>
                             <td>1</td>
+                            <td>13-05-2023</td>
+                            <td>Ujun Junaedi</td>
+                            <td>Vi</td>
                             <td>Bu Asih</td>
-                            <td>250.000</td>
-                            <td>0</td>
                             <td>1.200.000</td>
+                            <td>Ciamis</td>
                             <td>.</td>
                         </tr>
                         <tr>
                             <td>2</td>
-                            <td>Umum</td>
-                            <td>500.000</td>
-                            <td>200.000</td>
-                            <td>0</td>
+                            <td>13-05-2023</td>
+                            <td>Agus Rana</td>
+                            <td>Vi</td>
+                            <td>Bu Asih</td>
+                            <td>1.200.000</td>
+                            <td>Ciamis</td>
                             <td>.</td>
                         </tr>
                     </tbody>

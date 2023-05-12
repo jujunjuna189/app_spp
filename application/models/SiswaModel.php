@@ -23,6 +23,14 @@ class SiswaModel extends CI_Model
         return $query->result()[0];
     }
 
+    public function getBySearch($search)
+    {
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->like('nama_lengkap', $search);
+        return $this->db->get()->result();
+    }
+
     public function update($id, $data)
     {
         $this->db->update($this->table, $data, ['id' => $id]);

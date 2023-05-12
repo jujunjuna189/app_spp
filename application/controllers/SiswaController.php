@@ -56,6 +56,24 @@ class SiswaController extends CI_Controller
         echo json_encode($result);
     }
 
+    public function getBySearch()
+    {
+        $result = $this->siswa_model->getBySearch($this->input->get('search'));
+        $newResult = [];
+        foreach ($result as $val) {
+            $newResult[] = (object)[
+                'id' => $val->id,
+                'jenis_kategori' => $this->kategori_model->getById($val->id_kategori)->jenis_kategori ?? '-',
+                'nama_kelas' => $this->kelas_model->getById($val->id_kelas)->nama_kelas ?? '-',
+                'nama_lengkap' => $val->nama_lengkap,
+                'no_hp' => $val->no_hp,
+                'alamat' => $val->alamat,
+            ];
+        }
+        $result = $newResult;
+        echo json_encode($result);
+    }
+
     public function data()
     {
         $data['nama_lengkap'] = $this->input->post('nama_lengkap');
