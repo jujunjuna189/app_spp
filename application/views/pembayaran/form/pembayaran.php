@@ -66,7 +66,7 @@
                                         <small class="fw-semibold">Tunggakan</small>
                                     </div>
                                     <div class="bg-primary-light p-2 rounded-4 ps-3 pe-5 py-3 mt-2">
-                                        <div class="h3 m-0 fw-semibold">200.0000</div>
+                                        <div class="h3 m-0 fw-semibold" id="tunggakan-total">0</div>
                                     </div>
                                 </div>
                                 <div class="d-flex flex-grow-1 ms-0 ms-lg-5">
@@ -75,9 +75,9 @@
                                         <span>Detail Tunggakan</span>
                                         <div class="bg-primary-light rounded-4 p-2 mt-2">
                                             <ul>
-                                                <li>Infaq : <b>20.000</b></li>
-                                                <li>Makan : <b>20.000</b></li>
-                                                <li>Semester : <b>50.000</b></li>
+                                                <li>Infaq : <b id="tunggakan-infaq">0</b></li>
+                                                <li>Makan : <b id="tunggakan-makan">0</b></li>
+                                                <li>Semester : <b id="tunggakan-semester">0</b></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -92,11 +92,11 @@
                                 <div>
                                     <div class="form-group mb-2">
                                         <label for="Bayar" class="fw-semibold">Bayar</label>
-                                        <input type="number" name="" id="" class="form-control mt-2" placeholder="0">
+                                        <input type="text" name="" id="field-total" disabled class="form-control mt-2" placeholder="0">
                                     </div>
                                     <div class="form-group">
                                         <label for="Keterangan" class="fw-semibold">Keterangan</label>
-                                        <textarea name="keterangan" id="keterangan" cols="30" rows="3" class="form-control mt-2"></textarea>
+                                        <textarea name="keterangan" id="field-keterangan" cols="30" rows="3" class="form-control mt-2" onkeyup="onFieldInsert(this, 'keterangan')"></textarea>
                                     </div>
                                 </div>
                                 <div class="ms-0 ms-md-5 flex-grow-1">
@@ -107,7 +107,7 @@
                                                 <td class="py-2"><span class="fw-semibold">Infaq</span></td>
                                                 <td class="py-2">
                                                     <div class="ms-0 ms-md-5">
-                                                        <input type="text" name="" id="" class="form-control py-1">
+                                                        <input type="number" name="" id="" placeholder="0" class="form-control py-1" onkeyup="onPay(this, 'infaq')">
                                                     </div>
                                                 </td>
                                             </tr>
@@ -115,7 +115,7 @@
                                                 <td class="py-2"><span class="fw-semibold">Makan</span></td>
                                                 <td class="py-2">
                                                     <div class="ms-0 ms-md-5">
-                                                        <input type="text" name="" id="" class="form-control py-1">
+                                                        <input type="number" name="" id="" placeholder="0" class="form-control py-1" onkeyup="onPay(this, 'makan')">
                                                     </div>
                                                 </td>
                                             </tr>
@@ -123,7 +123,7 @@
                                                 <td class="py-2"><span class="fw-semibold">Semester</span></td>
                                                 <td class="py-2">
                                                     <div class="ms-0 ms-md-5">
-                                                        <input type="text" name="" id="" class="form-control py-1">
+                                                        <input type="number" name="" id="" placeholder="0" class="form-control py-1" onkeyup="onPay(this, 'semester')">
                                                     </div>
                                                 </td>
                                             </tr>
@@ -132,6 +132,10 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="mt-5 float-end">
+                        <a href="#" class="btn btn-secondary">Batal</a>
+                        <span class="btn btn-primary" onclick="onSaveTransaksi()">Simpan</span>
                     </div>
                 </div>
             </div>
@@ -156,6 +160,8 @@
 <script>
     const config = {
         get_search: '<?= base_url('siswa/get-by-search?search=') ?>',
+        get_kategori: '<?= base_url('pembayaran/hitung-tunggakan?id=') ?>',
+        create_pembayaran: '<?= base_url('pembayaran/bayar') ?>',
     };
 
     const elements = {
@@ -167,6 +173,16 @@
             kelas: '#siswa-kelas',
             no_hp: '#siswa-no_hp',
         },
+        tunggakanView: {
+            total: '#tunggakan-total',
+            infaq: '#tunggakan-infaq',
+            makan: '#tunggakan-makan',
+            semester: '#tunggakan-semester',
+        },
+        field: {
+            total: '#field-total',
+            keterangan: '#field-keterangan',
+        }
     };
 
     const modal = {
@@ -177,6 +193,13 @@
         siswa: [],
     };
 
+    const dataDraf = {
+        siswa: {},
+        tunggakan: {},
+        pembayaran: {},
+        dataBatch: {},
+    }
+
     const hitUrl = ({
         url,
         callback
@@ -186,6 +209,26 @@
             url: route,
             type: 'get',
             dataType: 'json',
+            success: (response) => {
+                callback(response);
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        });
+    }
+
+    const hitUrlPost = ({
+        url,
+        data,
+        callback
+    }) => {
+        let route = url;
+        $.ajax({
+            url: route,
+            type: 'post',
+            dataType: 'json',
+            data: data,
             success: (response) => {
                 callback(response);
             },
@@ -240,7 +283,9 @@
 
     const clickItemSiswa = (id) => {
         const siswa = dataServer.siswa.find((item) => item.id === id);
+        dataDraf.siswa = siswa;
         setSiswaView(siswa);
+        getKategoriBySiswa();
     }
 
     const setSiswaView = (item) => {
@@ -248,5 +293,79 @@
         $(elements.siswaView.kategori).html(item.jenis_kategori);
         $(elements.siswaView.kelas).html(item.nama_kelas);
         $(elements.siswaView.no_hp).html(item.no_hp);
+    }
+
+    // Get kategori by siswa
+    const getKategoriBySiswa = async () => {
+        await hitUrl({
+            url: config.get_kategori + dataDraf.siswa?.id,
+            callback: (res) => {
+                dataDraf.tunggakan = res;
+                setTunggakanView();
+            }
+        });
+    }
+
+    const setTunggakanView = () => {
+        $(elements.tunggakanView.total).html(dataDraf.tunggakan?.total ?? 0);
+        $(elements.tunggakanView.infaq).html(dataDraf.tunggakan?.harga_infaq ?? 0);
+        $(elements.tunggakanView.makan).html(dataDraf.tunggakan?.harga_makan ?? 0);
+        $(elements.tunggakanView.semester).html(dataDraf.tunggakan?.harga_semester ?? 0);
+    }
+
+    const onFieldInsert = (event, field) => {
+        const val = $(event).val();
+        dataDraf.dataBatch[field] = val;
+    }
+
+    const onPay = (event, field) => {
+        const val = $(event).val();
+        dataDraf.pembayaran[field] = val;
+        hitungTotalPay();
+    }
+
+    const hitungTotalPay = () => {
+        let total = 0;
+        Object.keys(dataDraf.pembayaran).forEach((item, index) => {
+            total = (parseInt(total) + parseInt(dataDraf.pembayaran[item]));
+        });
+        dataDraf.dataBatch.total = total;
+        total = formatRupiah(total.toString(), 'Rp');
+
+        $(elements.field.total).val(total);
+    }
+
+    const onSaveTransaksi = async () => {
+        let dataBatch = {
+            ...dataDraf.pembayaran,
+            ...dataDraf.dataBatch,
+            siswa: dataDraf.siswa,
+        };
+        await hitUrlPost({
+            url: config.create_pembayaran,
+            data: dataBatch,
+            callback: (res) => {
+                if (res) {
+                    location.href = '<?= base_url('pembayaran') ?>';
+                }
+            }
+        });
+    }
+
+    function formatRupiah(angka, prefix) {
+        var number_string = angka.replace(/[^,\d]/g, '').toString();
+        let split = number_string.split(',');
+        let sisa = split[0].length % 3;
+        let rupiah = split[0].substr(0, sisa);
+        let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp' + rupiah : '');
     }
 </script>

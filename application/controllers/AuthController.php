@@ -57,4 +57,8 @@ class AuthController extends CI_Controller
             redirect('login');
         }
     }
+
+    public function logout()
+    {
+    }
 }

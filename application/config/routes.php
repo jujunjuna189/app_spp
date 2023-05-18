@@ -88,9 +88,11 @@ $route['siswa/update'] = 'SiswaController/update';
 $route['siswa/delete'] = 'SiswaController/delete';
 // Pembayaran
 $route['pembayaran'] = 'PembayaranController/index';
-// Pembayaran
+$route['pembayaran/hitung-tunggakan'] = 'PembayaranController/hitung_tunggakan';
 $route['pembayaran/pembayaran'] = 'PembayaranController/pembayaran';
+$route['pembayaran/bayar'] = 'PembayaranController/bayar';
 // Dapur
 $route['dapur'] = 'DapurController/index';
+$route['dapur/store'] = 'DapurController/store';
 // Laporan
 $route['laporan'] = 'LaporanController/index';

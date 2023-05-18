@@ -28,26 +28,18 @@
                         </tr>
                     </thead>
                     <tbody class="fw-semibold text-dark-emphasis">
-                        <tr>
-                            <td>1</td>
-                            <td>13-05-2023</td>
-                            <td>Ujun Junaedi</td>
-                            <td>Vi</td>
-                            <td>Bu Asih</td>
-                            <td>1.200.000</td>
-                            <td>Ciamis</td>
-                            <td>.</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>13-05-2023</td>
-                            <td>Agus Rana</td>
-                            <td>Vi</td>
-                            <td>Bu Asih</td>
-                            <td>1.200.000</td>
-                            <td>Ciamis</td>
-                            <td>.</td>
-                        </tr>
+                        <?php foreach ($pembayaran as $index => $val) : ?>
+                            <tr>
+                                <td><?= $index + 1 ?></td>
+                                <td><?= $val->tanggal ?></td>
+                                <td><?= $val->nama_lengkap ?></td>
+                                <td><?= $val->nama_kelas ?></td>
+                                <td><?= $val->jenis_kategori ?></td>
+                                <td><?= $val->nominal ?></td>
+                                <td><?= $val->alamat ?></td>
+                                <td>.</td>
+                            </tr>
+                        <?php endforeach ?>
                     </tbody>
                 </table>
             </div>
