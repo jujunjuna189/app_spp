@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2023 at 08:45 PM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 7.4.13
+-- Generation Time: May 20, 2023 at 09:58 PM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 8.0.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,27 @@ SET time_zone = "+00:00";
 --
 -- Database: `app_spp`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `barang`
+--
+
+CREATE TABLE `barang` (
+  `id` int(11) NOT NULL,
+  `nama_barang` varchar(255) NOT NULL,
+  `nama_suplier` varchar(255) NOT NULL,
+  `harga` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `barang`
+--
+
+INSERT INTO `barang` (`id`, `nama_barang`, `nama_suplier`, `harga`) VALUES
+(1, 'Keyboard RGB', 'Ujun', 150000),
+(2, 'Mouse', 'Mouse Group', 200000);
 
 -- --------------------------------------------------------
 
@@ -42,8 +63,7 @@ CREATE TABLE `dapur` (
 --
 
 INSERT INTO `dapur` (`id`, `nama_barang`, `nama_suplier`, `harga`, `jml_beli`, `jml_keseluruhan`, `tgl`) VALUES
-(1, 'Mouse', 'Agus', 435436, 5, 6, '2023-05-18'),
-(2, 'try', 'rty', 67657, 6, 7, '2023-05-18');
+(3, 'Mouse', 'Ujun Junaedi', 2000, 50, 100, '2023-05-20');
 
 -- --------------------------------------------------------
 
@@ -104,8 +124,8 @@ CREATE TABLE `pembayaran` (
 --
 
 INSERT INTO `pembayaran` (`id`, `id_siswa`, `nominal`, `tanggal`) VALUES
-(3, 2, 414224, '2023-05-18'),
-(4, 1, 1059458, '2023-05-18');
+(10, 2, 40000, '2023-05-20'),
+(11, 1, 85000, '2023-05-20');
 
 -- --------------------------------------------------------
 
@@ -124,8 +144,8 @@ CREATE TABLE `pembayaran_detail` (
 --
 
 INSERT INTO `pembayaran_detail` (`id`, `id_pembayaran`, `detail_pembayaran`) VALUES
-(1, 3, '{\"infaq\":\"34345\",\"makan\":\"345345\",\"semester\":\"34534\",\"total\":\"414224\",\"keterangan\":\"dggdf\"}'),
-(2, 4, '{\"infaq\":\"546456\",\"makan\":\"56546\",\"semester\":\"456456\",\"total\":\"1059458\",\"keterangan\":\"fghfghh\"}');
+(8, 10, '{\"infaq\":\"5000\",\"makan\":\"10000\",\"semester\":\"25000\",\"total\":\"40000\",\"keterangan\":\"Bayar Pelunasan\"}'),
+(9, 11, '{\"infaq\":\"25000\",\"makan\":\"10000\",\"semester\":\"50000\",\"total\":\"85000\",\"keterangan\":\"Bayar Perbulan\"}');
 
 -- --------------------------------------------------------
 
@@ -180,6 +200,12 @@ INSERT INTO `siswa` (`id`, `id_kategori`, `id_kelas`, `nama_lengkap`, `no_hp`, `
 --
 
 --
+-- Indexes for table `barang`
+--
+ALTER TABLE `barang`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `dapur`
 --
 ALTER TABLE `dapur`
@@ -227,10 +253,16 @@ ALTER TABLE `siswa`
 --
 
 --
+-- AUTO_INCREMENT for table `barang`
+--
+ALTER TABLE `barang`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `dapur`
 --
 ALTER TABLE `dapur`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `kategori`
@@ -248,13 +280,13 @@ ALTER TABLE `kelas`
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `pembayaran_detail`
 --
 ALTER TABLE `pembayaran_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `pengguna`
