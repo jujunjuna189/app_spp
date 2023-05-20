@@ -66,6 +66,12 @@ $route['kategori/store'] = 'KategoriController/store';
 $route['kategori/get-by-id'] = 'KategoriController/getById';
 $route['kategori/update'] = 'KategoriController/update';
 $route['kategori/delete'] = 'KategoriController/delete';
+// Barang
+$route['barang'] = 'BarangController/index';
+$route['barang/store'] = 'BarangController/store';
+$route['barang/get-by-id'] = 'BarangController/getById';
+$route['barang/update'] = 'BarangController/update';
+$route['barang/delete'] = 'BarangController/delete';
 // Kelas
 $route['kelas'] = 'KelasController/index';
 $route['kelas/store'] = 'KelasController/store';
