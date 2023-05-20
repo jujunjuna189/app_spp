@@ -35,7 +35,7 @@
                                 <td><?= $val->nama_lengkap ?></td>
                                 <td><?= $val->nama_kelas ?></td>
                                 <td><?= $val->jenis_kategori ?></td>
-                                <td><?= $val->nominal ?></td>
+                                <td><?= $controller->formatterCurrency($val->nominal) ?></td>
                                 <td><?= $val->alamat ?></td>
                                 <td>.</td>
                             </tr>

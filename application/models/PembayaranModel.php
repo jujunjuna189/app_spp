@@ -23,6 +23,21 @@ class PembayaranModel extends CI_Model
         return $query->result()[0];
     }
 
+    public function getByToday()
+    {
+        $this->db->join('siswa', 'siswa.id=' . $this->table . '.id_siswa');
+        $this->db->where($this->table . '.tanggal', date('Y-m-d'));
+        $this->db->order_by($this->table . '.id', 'desc');
+        $query = $this->db->get($this->table);
+        return $query->result();
+    }
+
+    public function getByIdSiswa($id)
+    {
+        $query = $this->db->get_where($this->table, ['id_siswa' => $id]);
+        return $query->result();
+    }
+
     public function getByLast()
     {
         $this->db->order_by("id", "desc");
@@ -37,6 +52,7 @@ class PembayaranModel extends CI_Model
         $this->db->join('siswa', 'siswa.id=' . $this->table . '.id_siswa');
         $this->db->join('kategori', 'kategori.id=siswa.id_kategori');
         $this->db->join('kelas', 'kelas.id=siswa.id_kelas');
+        $this->db->order_by('pembayaran.id', 'desc');
         $query = $this->db->get();
         return $query->result();
     }

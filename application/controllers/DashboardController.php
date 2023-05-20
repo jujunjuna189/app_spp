@@ -6,12 +6,14 @@ class DashboardController extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('PembayaranModel', 'pembayaran_model');
     }
 
     public function index()
     {
 
         $data['heading'] = 'Dashboard';
+        $data['pembayaran'] = $this->pembayaran_model->getByToday();
 
         $this->load->view('layouts/header'); //Header berisi link css dan font serta aset lainya
         $this->load->view('components/navbar/index'); // Navbar berisi navbar

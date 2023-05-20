@@ -88,49 +88,51 @@
                     <!-- Pembayaran -->
                     <div class="card border-dashed mt-3 rounded-4">
                         <div class="card-body">
-                            <div class="d-flex flex-wrap">
-                                <div>
-                                    <div class="form-group mb-2">
-                                        <label for="Bayar" class="fw-semibold">Bayar</label>
-                                        <input type="text" name="" id="field-total" disabled class="form-control mt-2" placeholder="0">
+                            <form action="#" method="post">
+                                <div class="d-flex">
+                                    <div>
+                                        <div class="form-group mb-2">
+                                            <label for="Bayar" class="fw-semibold">Bayar</label>
+                                            <input type="text" name="" id="field-total" disabled class="form-control mt-2" placeholder="0">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Keterangan" class="fw-semibold">Keterangan</label>
+                                            <textarea name="keterangan" id="field-keterangan" cols="30" rows="3" class="form-control mt-2" onkeyup="onFieldInsert(this, 'keterangan')"></textarea>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="Keterangan" class="fw-semibold">Keterangan</label>
-                                        <textarea name="keterangan" id="field-keterangan" cols="30" rows="3" class="form-control mt-2" onkeyup="onFieldInsert(this, 'keterangan')"></textarea>
+                                    <div class="ms-0 ms-md-3 flex-grow-1">
+                                        <span class="fw-semibold">Detail Pembayaran</span>
+                                        <div class="border p-3 rounded-4 mt-2">
+                                            <table>
+                                                <tr>
+                                                    <td class="py-2"><span class="fw-semibold">Infaq</span></td>
+                                                    <td class="py-2">
+                                                        <div class="ms-0 ms-md-5">
+                                                            <input type="number" name="" id="field-infaq" placeholder="0" class="form-control py-1" onkeyup="onPay(this, 'infaq')">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="py-2"><span class="fw-semibold">Makan</span></td>
+                                                    <td class="py-2">
+                                                        <div class="ms-0 ms-md-5">
+                                                            <input type="number" name="" id="field-makan" placeholder="0" class="form-control py-1" onkeyup="onPay(this, 'makan')">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="py-2"><span class="fw-semibold">Semester</span></td>
+                                                    <td class="py-2">
+                                                        <div class="ms-0 ms-md-5">
+                                                            <input type="number" name="" id="field-semester" placeholder="0" class="form-control py-1" onkeyup="onPay(this, 'semester')">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="ms-0 ms-md-5 flex-grow-1">
-                                    <span class="fw-semibold">Detail Pembayaran</span>
-                                    <div class="border p-3 rounded-4 mt-2">
-                                        <table>
-                                            <tr>
-                                                <td class="py-2"><span class="fw-semibold">Infaq</span></td>
-                                                <td class="py-2">
-                                                    <div class="ms-0 ms-md-5">
-                                                        <input type="number" name="" id="" placeholder="0" class="form-control py-1" onkeyup="onPay(this, 'infaq')">
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="py-2"><span class="fw-semibold">Makan</span></td>
-                                                <td class="py-2">
-                                                    <div class="ms-0 ms-md-5">
-                                                        <input type="number" name="" id="" placeholder="0" class="form-control py-1" onkeyup="onPay(this, 'makan')">
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="py-2"><span class="fw-semibold">Semester</span></td>
-                                                <td class="py-2">
-                                                    <div class="ms-0 ms-md-5">
-                                                        <input type="number" name="" id="" placeholder="0" class="form-control py-1" onkeyup="onPay(this, 'semester')">
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                     <div class="mt-5 float-end">
@@ -182,6 +184,9 @@
         field: {
             total: '#field-total',
             keterangan: '#field-keterangan',
+            infaq: '#field-infaq',
+            makan: '#field-makan',
+            semester: '#field-semester',
         }
     };
 
@@ -307,10 +312,15 @@
     }
 
     const setTunggakanView = () => {
+        // Element
         $(elements.tunggakanView.total).html(dataDraf.tunggakan?.total ?? 0);
         $(elements.tunggakanView.infaq).html(dataDraf.tunggakan?.harga_infaq ?? 0);
         $(elements.tunggakanView.makan).html(dataDraf.tunggakan?.harga_makan ?? 0);
         $(elements.tunggakanView.semester).html(dataDraf.tunggakan?.harga_semester ?? 0);
+    }
+
+    const findNumber = (str) => {
+        return +(str.replace(/\D+/g, ''));
     }
 
     const onFieldInsert = (event, field) => {
@@ -320,7 +330,11 @@
 
     const onPay = (event, field) => {
         const val = $(event).val();
-        dataDraf.pembayaran[field] = val;
+        if ('harga_' + field in dataDraf.tunggakan && val <= findNumber(dataDraf.tunggakan['harga_' + field])) {
+            dataDraf.pembayaran[field] = val;
+        } else {
+            $(elements.field[field]).val(dataDraf.pembayaran[field] ?? '');
+        }
         hitungTotalPay();
     }
 

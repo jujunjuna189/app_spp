@@ -63,57 +63,25 @@
         <div class="px-2">
             Data yang bayar pada hari ini
             <hr>
-            <div class="px-3">
-                <div class="border border-dark rounded-4 mt-3 p-3 d-flex flex-wrap justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <div style="width: 2.5rem; height: 2.5rem" class="rounded-circle bg-dark"></div>
-                        <span class="ms-3 fw-semibold">Aas Latipah</span>
-                    </div>
-                    <div class="d-flex">
-                        <div class="border rounded-5 h-100"></div>
-                        <div class="ms-4">
-                            <span>Semester</span>
-                            <div class="fw-bolder">
-                                200.0000
+            <?php foreach ($pembayaran as $val) :  ?>
+                <div class="px-3">
+                    <div class="border border-dark rounded-4 mt-3 p-3 d-flex flex-wrap justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <div style="width: 2.5rem; height: 2.5rem" class="rounded-circle bg-dark"></div>
+                            <span class="ms-3 fw-semibold"><?= $val->nama_lengkap ?></span>
+                        </div>
+                        <div class="d-flex">
+                            <div class="border rounded-5 h-100"></div>
+                            <div class="ms-4">
+                                <span>Nominal</span>
+                                <div class="fw-bolder">
+                                    <?= $val->nominal ?>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="px-3">
-                <div class="border border-dark rounded-4 mt-3 p-3 d-flex flex-wrap justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <div style="width: 2.5rem; height: 2.5rem" class="rounded-circle bg-dark"></div>
-                        <span class="ms-3 fw-semibold">Aas Latipah</span>
-                    </div>
-                    <div class="d-flex">
-                        <div class="border rounded-5 h-100"></div>
-                        <div class="ms-4">
-                            <span>Semester</span>
-                            <div class="fw-bolder">
-                                200.0000
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="px-3">
-                <div class="border border-dark rounded-4 mt-3 p-3 d-flex flex-wrap justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <div style="width: 2.5rem; height: 2.5rem" class="rounded-circle bg-dark"></div>
-                        <span class="ms-3 fw-semibold">Aas Latipah</span>
-                    </div>
-                    <div class="d-flex">
-                        <div class="border rounded-5 h-100"></div>
-                        <div class="ms-4">
-                            <span>Semester</span>
-                            <div class="fw-bolder">
-                                200.0000
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php endforeach ?>
         </div>
     </div>
 </div>

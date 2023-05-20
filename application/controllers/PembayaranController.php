@@ -55,13 +55,31 @@ class PembayaranController extends CI_Controller
         $siswa = $this->siswa_model->getById($this->input->get('id'));
         $kategori = $this->kategori_model->getById($siswa->id_kategori);
 
-        $total = $this->countNominalWithArray([$kategori->harga_infaq, $kategori->harga_makan, $kategori->harga_semester], '+');
+        $pembayaran = $this->pembayaran_model->getByIdSiswa($siswa->id);
+
+        $pelunasan = (object)[
+            'harga_infaq' => $kategori->harga_infaq,
+            'harga_makan' => $kategori->harga_makan,
+            'harga_semester' => $kategori->harga_semester,
+        ];
+        foreach ($pembayaran as $val) {
+            $pembayaran_detail = $this->pembayaran_detail_model->getByIdPembayaran($val->id);
+            $pembayaran_detail = is_string($pembayaran_detail->detail_pembayaran) ? json_decode($pembayaran_detail->detail_pembayaran) : (object)[];
+
+            $pelunasan = (object)[
+                'harga_infaq' => $pelunasan->harga_infaq - ($pembayaran_detail->infaq ?? 0),
+                'harga_makan' => $pelunasan->harga_makan - ($pembayaran_detail->makan ?? 0),
+                'harga_semester' => $pelunasan->harga_semester - ($pembayaran_detail->semester ?? 0),
+            ];
+        }
+
+        $total = $this->countNominalWithArray([$pelunasan->harga_infaq, $pelunasan->harga_makan, $pelunasan->harga_semester], '+');
 
         $data = [
             'kategori' => $kategori,
-            'harga_infaq' => $this->formatterCurrency($kategori->harga_infaq),
-            'harga_makan' => $this->formatterCurrency($kategori->harga_makan),
-            'harga_semester' => $this->formatterCurrency($kategori->harga_semester),
+            'harga_infaq' => $this->formatterCurrency($pelunasan->harga_infaq),
+            'harga_makan' => $this->formatterCurrency($pelunasan->harga_makan),
+            'harga_semester' => $this->formatterCurrency($pelunasan->harga_semester),
             'total' => $this->formatterCurrency($total),
         ];
 

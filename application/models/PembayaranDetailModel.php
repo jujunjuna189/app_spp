@@ -23,6 +23,12 @@ class PembayaranDetailModel extends CI_Model
         return $query->result()[0];
     }
 
+    public function getByIdPembayaran($id)
+    {
+        $query = $this->db->get_where($this->table, ['id_pembayaran' => $id]);
+        return $query->result()[0];
+    }
+
     public function update($id, $data)
     {
         $this->db->update($this->table, $data, ['id' => $id]);
