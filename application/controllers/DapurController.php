@@ -8,12 +8,14 @@ class DapurController extends CI_Controller
     {
         parent::__construct();
         $this->load->model('DapurModel', 'dapur_model');
+        $this->load->model('BarangModel', 'barang_model');
     }
 
     public function index()
     {
         $data['heading'] = 'Pengeluaran Dapur';
         $data['sub_heading'] = 'Pendataan Barang';
+        $data['barang'] = $this->barang_model->get();
         $data['dapur'] = $this->dapur_model->get();
 
         $this->load->view('layouts/header'); //Header berisi link css dan font serta aset lainya

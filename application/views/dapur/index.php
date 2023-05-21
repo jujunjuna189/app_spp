@@ -59,23 +59,28 @@
                     <div class="px-3">
                         <div class="form-group mb-3">
                             <label for="Nama Barang">Nama Barang</label>
-                            <input type="text" name="nama_barang" id="nama_barang" class="form-control fw-semibold" placeholder="...">
+                            <select name="nama_barang" id="nama_barang" onchange="onChange(this)" class="form-control">
+                                <option value="">Pilih Barang</option>
+                                <?php foreach ($barang as $val) : ?>
+                                    <option value="<?= $val->nama_barang ?>" data-id="<?= $val->id ?>"><?= $val->nama_barang ?></option>
+                                <?php endforeach ?>
+                            </select>
                         </div>
                         <div class="form-group mb-3">
                             <label for="Nama Suplier">Nama Suplier</label>
-                            <input type="text" name="nama_suplier" id="nama_suplier" class="form-control fw-semibold" placeholder="...">
+                            <input type="text" name="nama_suplier" id="nama_suplier" disabled class="form-control fw-semibold" placeholder="...">
                         </div>
                         <div class="form-group mb-3">
                             <label for="Harga">Harga</label>
-                            <input type="number" name="harga" id="harga" class="form-control fw-semibold" placeholder="0">
+                            <input type="number" name="harga" id="harga" disabled class="form-control fw-semibold" placeholder="0">
                         </div>
                         <div class="form-group mb-3">
                             <label for="Jumlah Beli">Jumlah Beli</label>
-                            <input type="number" name="jml_beli" id="jml_beli" class="form-control fw-semibold" placeholder="0">
+                            <input type="number" name="jml_beli" id="jml_beli" class="form-control fw-semibold" onchange="countTotal(this)" placeholder="0">
                         </div>
                         <div class="form-group mb-3">
-                            <label for="Jumlah Keseluruhan">Jumlah Keseluruhan</label>
-                            <input type="number" name="jml_keseluruhan" id="jml_keseluruhan" class="form-control fw-semibold" placeholder="0">
+                            <label for="Total">Total</label>
+                            <input type="number" name="jml_keseluruhan" id="jml_keseluruhan" disabled class="form-control fw-semibold" placeholder="0">
                         </div>
                     </div>
                     <div class="d-flex justify-content-end gap-2 px-3 my-4">
@@ -87,3 +92,40 @@
         </div>
     </div>
 </div>
+
+<script>
+    const dataServer = {
+        barang: <?= json_encode($barang) ?>,
+    }
+
+    const elements = {
+        modal: {
+            add: '#modal-add',
+        },
+        field: {
+            nama_barang: '#nama_barang',
+            nama_suplier: '#nama_suplier',
+            harga: '#harga',
+        },
+    }
+
+    let dataDraf = {
+        barang_choose: {},
+    }
+
+    const onChange = (event) => {
+        let result = $(event).find(':selected').data('id');
+        result = dataServer.barang.find((x) => {
+            return x.id == result;
+        });
+        dataDraf.barang_choose = result;
+        $('#modal-add #nama_suplier').val(typeof(result) === "undefined" ? '' : result.nama_suplier);
+        $('#modal-add #harga').val(typeof(result) === "undefined" ? '' : result.harga);
+    }
+
+    const countTotal = (event) => {
+        let qty = $(event).val();
+        let result = qty * (dataDraf.barang_choose.harga ?? 0);
+        $(element.modal.add + ' ' + elements.field.jml_keseluruhan).val(result);
+    }
+</script>

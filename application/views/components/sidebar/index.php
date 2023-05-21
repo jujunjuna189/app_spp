@@ -3,7 +3,7 @@
         <img src="<?= base_url('assets/image/logo/logo34x33.png') ?>" alt="Logo App Spp" class="me-3">
         <span class="text-uppercase text-white fw-semibold m-0" style="font-size: 1.3rem;">SPP APP</span>
     </div>
-    <div class="d-flex flex-column px-3 mt-4">
+    <div class="d-flex flex-column px-3 mt-4" style="overflow-y: auto;">
         <ul class="nav nav-pills flex-column">
             <li class="nav-item">
                 <a href="<?= base_url('dashboard') ?>" class="nav-link text-white fw-semibold d-flex align-items-center active" style="border-radius: 0.7rem;">
