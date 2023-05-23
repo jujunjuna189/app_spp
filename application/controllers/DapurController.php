@@ -17,6 +17,7 @@ class DapurController extends CI_Controller
         $data['sub_heading'] = 'Pendataan Barang';
         $data['barang'] = $this->barang_model->get();
         $data['dapur'] = $this->dapur_model->get();
+        $data['controller'] = $this;
 
         $this->load->view('layouts/header'); //Header berisi link css dan font serta aset lainya
         $this->load->view('components/navbar/index'); // Navbar berisi navbar

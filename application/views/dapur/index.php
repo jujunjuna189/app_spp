@@ -23,7 +23,7 @@
                             <th>Nama Suplier</th>
                             <th>Harga</th>
                             <th>Jumlah Beli</th>
-                            <th>Jumlah Keseluruhan</th>
+                            <th>Total</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -36,7 +36,7 @@
                                 <td><?= $val->nama_suplier ?></td>
                                 <td><?= $val->harga ?></td>
                                 <td><?= $val->jml_beli ?></td>
-                                <td><?= $val->jml_keseluruhan ?></td>
+                                <td><?= $controller->formatterCurrency($val->jml_keseluruhan) ?></td>
                                 <td>.</td>
                             </tr>
                         <?php endforeach ?>
@@ -68,19 +68,20 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="Nama Suplier">Nama Suplier</label>
-                            <input type="text" name="nama_suplier" id="nama_suplier" disabled class="form-control fw-semibold" placeholder="...">
+                            <input type="text" name="nama_suplier" id="nama_suplier" readonly class="form-control fw-semibold" style="background-color: #dfe6e9;" placeholder="...">
                         </div>
                         <div class="form-group mb-3">
                             <label for="Harga">Harga</label>
-                            <input type="number" name="harga" id="harga" disabled class="form-control fw-semibold" placeholder="0">
+                            <input type="number" name="harga" id="harga" readonly class="form-control fw-semibold" style="background-color: #dfe6e9;" placeholder="0">
                         </div>
                         <div class="form-group mb-3">
                             <label for="Jumlah Beli">Jumlah Beli</label>
-                            <input type="number" name="jml_beli" id="jml_beli" class="form-control fw-semibold" onchange="countTotal(this)" placeholder="0">
+                            <input type="number" name="jml_beli" id="jml_beli" class="form-control fw-semibold" onkeyup="countTotal(this)" placeholder="0">
                         </div>
                         <div class="form-group mb-3">
                             <label for="Total">Total</label>
-                            <input type="number" name="jml_keseluruhan" id="jml_keseluruhan" disabled class="form-control fw-semibold" placeholder="0">
+                            <input type="hidden" name="jml_keseluruhan" id="jml_keseluruhan" class="form-control fw-semibold" placeholder="0">
+                            <input type="text" name="jml_keseluruhan_view" id="jml_keseluruhan_view" readonly class="form-control fw-semibold" style="background-color: #dfe6e9;" placeholder="0">
                         </div>
                     </div>
                     <div class="d-flex justify-content-end gap-2 px-3 my-4">
@@ -106,6 +107,8 @@
             nama_barang: '#nama_barang',
             nama_suplier: '#nama_suplier',
             harga: '#harga',
+            jml_keseluruhan: '#jml_keseluruhan',
+            jml_keseluruhan_view: '#jml_keseluruhan_view',
         },
     }
 
@@ -126,6 +129,24 @@
     const countTotal = (event) => {
         let qty = $(event).val();
         let result = qty * (dataDraf.barang_choose.harga ?? 0);
-        $(element.modal.add + ' ' + elements.field.jml_keseluruhan).val(result);
+        $('#modal-add #jml_keseluruhan').val(result);
+        $('#modal-add #jml_keseluruhan_view').val(formatRupiah(result.toString(), 'Rp'));
+    }
+
+    function formatRupiah(angka, prefix) {
+        var number_string = angka.replace(/[^,\d]/g, '').toString();
+        let split = number_string.split(',');
+        let sisa = split[0].length % 3;
+        let rupiah = split[0].substr(0, sisa);
+        let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp' + rupiah : '');
     }
 </script>
