@@ -26,6 +26,7 @@ class DapurController extends CI_Controller
         $this->load->view('components/heading/index', $data); // Berisi heading
         $this->load->view('dapur/index'); // Contant
         $this->load->view('components/content/end'); // Content end verisi div penutup dari content start
+        $this->load->view('components/modal_confirm/index'); // Modal Confirm
         $this->load->view('layouts/footer'); // Footer berisi assets footer
     }
 
@@ -47,5 +48,11 @@ class DapurController extends CI_Controller
 
         $store = $this->dapur_model->store($data);
         redirect('dapur');
+    }
+
+    public function delete()
+    {
+        $result = $this->dapur_model->delete($this->input->get('id'));
+        echo json_encode($result);
     }
 }

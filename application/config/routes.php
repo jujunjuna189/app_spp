@@ -100,5 +100,6 @@ $route['pembayaran/bayar'] = 'PembayaranController/bayar';
 // Dapur
 $route['dapur'] = 'DapurController/index';
 $route['dapur/store'] = 'DapurController/store';
+$route['dapur/delete'] = 'DapurController/delete';
 // Laporan
 $route['laporan'] = 'LaporanController/index';

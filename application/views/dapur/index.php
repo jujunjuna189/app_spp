@@ -37,7 +37,19 @@
                                 <td><?= $val->harga ?></td>
                                 <td><?= $val->jml_beli ?></td>
                                 <td><?= $controller->formatterCurrency($val->jml_keseluruhan) ?></td>
-                                <td>.</td>
+                                <td>
+                                    <span class="btn bg-danger bg-opacity-50 ms-2 text-black" onclick="deleteData('<?= $val->id ?>')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M4 7l16 0"></path>
+                                            <path d="M10 11l0 6"></path>
+                                            <path d="M14 11l0 6"></path>
+                                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                                        </svg>
+                                        <!-- <small><strong>Hapus</strong></small> -->
+                                    </span>
+                                </td>
                             </tr>
                         <?php endforeach ?>
                     </tbody>
@@ -95,9 +107,17 @@
 </div>
 
 <script>
+    const config = {
+        delete_url: '<?= base_url('dapur/delete?id=') ?>',
+    }
+
     const dataServer = {
         barang: <?= json_encode($barang) ?>,
     }
+
+    const modal = {
+        confirm_delete: '#modal-confirm-delete',
+    };
 
     const elements = {
         modal: {
@@ -148,5 +168,41 @@
 
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
         return prefix == undefined ? rupiah : (rupiah ? 'Rp' + rupiah : '');
+    }
+
+    const hitUrl = ({
+        url,
+        callback
+    }) => {
+        let route = url;
+        $.ajax({
+            url: route,
+            type: 'get',
+            dataType: 'json',
+            success: (response) => {
+                callback(response);
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        });
+    }
+
+    const openModal = (idElement) => {
+        $(idElement).modal('show');
+    }
+
+    const deleteData = (id) => {
+        openModal(modal.confirm_delete);
+        $(modal.confirm_delete + ' #button-ok').attr('onclick', 'executeDelete(' + id + ')');
+    }
+
+    const executeDelete = async (id) => {
+        await hitUrl({
+            url: config.delete_url + id,
+            callback: (res) => {
+                location.reload();
+            }
+        });
     }
 </script>
