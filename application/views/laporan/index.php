@@ -74,7 +74,7 @@
 <!-- Script -->
 <script>
     const config = {
-        currentUrl: '<?= base_url('laporan') ?>';
+        currentUrl: '<?= base_url('laporan') ?>',
     }
 
     const onFilter = () => {
