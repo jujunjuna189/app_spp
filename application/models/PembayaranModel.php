@@ -57,6 +57,20 @@ class PembayaranModel extends CI_Model
         return $query->result();
     }
 
+    public function getWithSiswaAndFilter($from_date, $last_date)
+    {
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->join('siswa', 'siswa.id=' . $this->table . '.id_siswa');
+        $this->db->join('kategori', 'kategori.id=siswa.id_kategori');
+        $this->db->join('kelas', 'kelas.id=siswa.id_kelas');
+        $this->db->where('pembayaran.tanggal >=', $from_date);
+        $this->db->where('pembayaran.tanggal <=', $last_date);
+        $this->db->order_by('pembayaran.id', 'desc');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function update($id, $data)
     {
         $this->db->update($this->table, $data, ['id' => $id]);

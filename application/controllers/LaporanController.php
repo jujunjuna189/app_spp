@@ -14,6 +14,10 @@ class LaporanController extends CI_Controller
     {
         $pembayaran = $this->pembayaran_model->getWithSiswa();
 
+        if ($this->input->get('from_date') && $this->input->get('last_date')) {
+            $pembayaran = $this->pembayaran_model->getWithSiswaAndFilter($this->input->get('from_date'), $this->input->get('last_date'));
+        }
+
         $data['heading'] = 'Laporan';
         $data['sub_heading'] = 'Master Data';
         $data['data'] = $pembayaran;

@@ -77,7 +77,17 @@
         currentUrl: '<?= base_url('laporan') ?>',
     }
 
+    const element = {
+        from_date: '#from_date',
+        last_date: '#last_date',
+    }
+
     const onFilter = () => {
-        console.log(config.currentUrl);
+        let from_date = $(element.from_date).val();
+        let last_date = $(element.last_date).val();
+
+        let concat_url = config.currentUrl + '?from_date=' + from_date + '&last_date=' + last_date;
+
+        location.href = concat_url;
     }
 </script>
