@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2023 at 06:25 PM
+-- Generation Time: May 25, 2023 at 06:39 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.13
 
@@ -171,7 +171,8 @@ CREATE TABLE `pengguna` (
 --
 
 INSERT INTO `pengguna` (`id`, `nama_lengkap`, `username`, `password`, `no_hp`, `alamat`, `foto`, `jabatan`) VALUES
-(4, 'Aas Latipah', 'admin', '123456', '087777777777', 'Garut Leles', NULL, 'Admin');
+(4, 'Aas Latipah', 'admin', '123456', '087777777777', 'Garut Leles', NULL, 'Admin'),
+(6, 'Pimpinan', '123456', '123456', '087777777777', 'Garut Leles', NULL, 'Pimpinan');
 
 -- --------------------------------------------------------
 
@@ -294,7 +295,7 @@ ALTER TABLE `pembayaran_detail`
 -- AUTO_INCREMENT for table `pengguna`
 --
 ALTER TABLE `pengguna`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `siswa`
