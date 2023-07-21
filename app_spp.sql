@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2023 at 06:39 PM
+-- Generation Time: Jul 21, 2023 at 02:04 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.13
 
@@ -127,7 +127,8 @@ CREATE TABLE `pembayaran` (
 
 INSERT INTO `pembayaran` (`id`, `id_siswa`, `nominal`, `tanggal`) VALUES
 (10, 2, 40000, '2023-05-20'),
-(11, 1, 85000, '2023-05-20');
+(11, 1, 85000, '2023-05-20'),
+(12, 2, 60000, '2023-05-25');
 
 -- --------------------------------------------------------
 
@@ -147,7 +148,8 @@ CREATE TABLE `pembayaran_detail` (
 
 INSERT INTO `pembayaran_detail` (`id`, `id_pembayaran`, `detail_pembayaran`) VALUES
 (8, 10, '{\"infaq\":\"5000\",\"makan\":\"10000\",\"semester\":\"25000\",\"total\":\"40000\",\"keterangan\":\"Bayar Pelunasan\"}'),
-(9, 11, '{\"infaq\":\"25000\",\"makan\":\"10000\",\"semester\":\"50000\",\"total\":\"85000\",\"keterangan\":\"Bayar Perbulan\"}');
+(9, 11, '{\"infaq\":\"25000\",\"makan\":\"10000\",\"semester\":\"50000\",\"total\":\"85000\",\"keterangan\":\"Bayar Perbulan\"}'),
+(10, 12, '{\"infaq\":\"30000\",\"makan\":\"30000\",\"semester\":null,\"total\":\"60000\",\"keterangan\":\"Bayar sisa nya\"}');
 
 -- --------------------------------------------------------
 
@@ -283,13 +285,13 @@ ALTER TABLE `kelas`
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `pembayaran_detail`
 --
 ALTER TABLE `pembayaran_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `pengguna`
