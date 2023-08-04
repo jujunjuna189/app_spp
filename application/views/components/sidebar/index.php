@@ -22,7 +22,7 @@
                 <small class="text-white small">Master Data</small>
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item">
-                        <a href="<?= base_url('kategori') ?>" class="nav-link text-white fw-semibold d-flex align-items-center active2">
+                        <a href="<?= base_url('barang-kategori') ?>" class="nav-link text-white fw-semibold d-flex align-items-center active2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="me-2" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M4 4h6v8h-6z"></path>
@@ -30,7 +30,7 @@
                                 <path d="M14 12h6v8h-6z"></path>
                                 <path d="M14 4h6v4h-6z"></path>
                             </svg>
-                            Kategori
+                            <span style="font-size: 14px;">Kategori Barang</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -71,8 +71,20 @@
                 </ul>
             </div>
             <div class="bg-primary-dark mt-3 rounded-4 py-2 px-3">
-                <small class="text-white small">Data Siswa</small>
+                <small class="text-white small">Data Peserta Didik</small>
                 <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                        <a href="<?= base_url('kategori') ?>" class="nav-link text-white fw-semibold d-flex align-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="me-2" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M4 4h6v8h-6z"></path>
+                                <path d="M4 16h6v4h-6z"></path>
+                                <path d="M14 12h6v8h-6z"></path>
+                                <path d="M14 4h6v4h-6z"></path>
+                            </svg>
+                            Kategori
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="<?= base_url('siswa') ?>" class="nav-link text-white fw-semibold d-flex align-items-center active2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="me-2" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -82,7 +94,7 @@
                                 <path d="M16.5 17.5m-2.5 0a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0 -5 0"></path>
                                 <path d="M18.5 19.5l2.5 2.5"></path>
                             </svg>
-                            Siswa
+                            Peserta Didik
                         </a>
                     </li>
                 </ul>

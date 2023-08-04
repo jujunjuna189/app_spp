@@ -76,11 +76,13 @@ class SiswaController extends CI_Controller
 
     public function data()
     {
+        $data['nisn'] = $this->input->post('nisn');
         $data['nama_lengkap'] = $this->input->post('nama_lengkap');
         $data['id_kategori'] = $this->input->post('id_kategori');
         $data['id_kelas'] = $this->input->post('id_kelas');
         $data['no_hp'] = $this->input->post('no_hp');
         $data['alamat'] = $this->input->post('alamat');
+        $data['tahun_ajaran'] = $this->input->post('tahun_ajaran');
 
         return $data;
     }
@@ -88,8 +90,13 @@ class SiswaController extends CI_Controller
     public function store()
     {
         $data = $this->data();
+        $siswa = $this->siswa_model->getWhere(['no_hp' => $data['no_hp']]);
 
-        $this->siswa_model->store($data);
+        if (empty($siswa)) {
+            $this->siswa_model->store($data);
+        } else {
+            $this->session->set_flashdata('flashdata', ['bg' => 'bg-danger text-white', 'msg' => 'Data sudah terdaftar']);
+        }
         redirect('siswa');
     }
 

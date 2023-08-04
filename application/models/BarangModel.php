@@ -23,6 +23,12 @@ class BarangModel extends CI_Model
         return $query->result()[0];
     }
 
+    public function getWhere($where)
+    {
+        $query = $this->db->get_where($this->table, $where);
+        return $query->result();
+    }
+
     public function update($id, $data)
     {
         $this->db->update($this->table, $data, ['id' => $id]);

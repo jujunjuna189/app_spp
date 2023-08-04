@@ -12,17 +12,26 @@
                 </a>
             </div>
             <hr>
+            <div class="my-3">
+                <?php if ($this->session->flashdata('flashdata')) : ?>
+                    <div class="px-3 py-2 fw-bold <?= $this->session->flashdata('flashdata')['bg']; ?> rounded-2">
+                        <?= $this->session->flashdata('flashdata')['msg']; ?>
+                    </div>
+                <?php endif ?>
+            </div>
             <!-- Table -->
             <div class="table-responsive mt-4 rounded-4 border border-dark-subtle">
                 <table class="table border-dark-subtle">
                     <thead class="text-primary table-light fw-bold">
                         <tr>
                             <th>No</th>
+                            <th>NISN</th>
                             <th>Nama Lengkap</th>
                             <th>Kategori</th>
                             <th>Kelas</th>
                             <th>No Hanphone</th>
                             <th>Alamat</th>
+                            <th>Tahun Ajaran</th>
                             <th style="width: 15rem">Aksi</th>
                         </tr>
                     </thead>
@@ -30,11 +39,13 @@
                         <?php foreach ($siswa as $index => $val) : ?>
                             <tr>
                                 <td><?= $index += 1 ?></td>
+                                <td><?= $val->nisn ?></td>
                                 <td><?= $val->nama_lengkap ?></td>
                                 <td><?= $this->kategori_model->getById($val->id_kategori)->jenis_kategori ?? '-' ?></td>
                                 <td><?= $this->kelas_model->getById($val->id_kelas)->nama_kelas ?? '-' ?></td>
                                 <td><?= $val->no_hp ?></td>
                                 <td><?= $val->alamat ?></td>
+                                <td><?= $val->tahun_ajaran ?></td>
                                 <td>
                                     <span class="btn bg-info bg-opacity-50" onclick="window.open('<?= base_url('siswa/detail?id_siswa=' . $val->id) ?>', '_self')">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="" width="20" height="20" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -86,6 +97,10 @@
                     </div>
                     <div class="px-3">
                         <div class="form-group mb-3">
+                            <label for="NISN">NISN</label>
+                            <input type="text" name="nisn" id="nisn" class="form-control fw-semibold" placeholder="...">
+                        </div>
+                        <div class="form-group mb-3">
                             <label for="Nama Lengkap">Nama Lengkap</label>
                             <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control fw-semibold" placeholder="...">
                         </div>
@@ -109,11 +124,15 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="Nomor Hanphone">Nomor Hanphone</label>
-                            <input type="text" name="no_hp" id="no_hp" class="form-control fw-semibold" placeholder="...">
+                            <input type="number" name="no_hp" id="no_hp" class="form-control fw-semibold" placeholder="...">
                         </div>
                         <div class="form-group mb-3">
                             <label for="Alamat">Alamat</label>
                             <textarea name="alamat" id="alamat" cols="30" rows="3" class="form-control fw-semibold" placeholder="..."></textarea>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="Tahun Ajaran">Tahun Ajaran</label>
+                            <input type="text" name="tahun_ajaran" id="tahun_ajaran" class="form-control fw-semibold" placeholder="...">
                         </div>
                     </div>
                     <div class="d-flex justify-content-end gap-2 px-3 my-4">
@@ -138,6 +157,10 @@
                     <div class="px-3">
                         <input type="hidden" name="id" id="id">
                         <div class="form-group mb-3">
+                            <label for="NISN">NISN</label>
+                            <input type="text" name="nisn" id="nisn" class="form-control fw-semibold" placeholder="...">
+                        </div>
+                        <div class="form-group mb-3">
                             <label for="Nama Lengkap">Nama Lengkap</label>
                             <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control fw-semibold" placeholder="...">
                         </div>
@@ -165,6 +188,10 @@
                             <label for="Alamat">Alamat</label>
                             <textarea name="alamat" id="alamat" cols="30" rows="3" class="form-control fw-semibold" placeholder="..."></textarea>
                         </div>
+                        <div class="form-group mb-3">
+                            <label for="Tahun Ajaran">Tahun Ajaran</label>
+                            <input type="text" name="tahun_ajaran" id="tahun_ajaran" class="form-control fw-semibold" placeholder="...">
+                        </div>
                     </div>
                     <div class="d-flex justify-content-end gap-2 px-3 my-4">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -188,11 +215,13 @@
     };
     const field = {
         id: '#id',
+        nisn: '#nisn',
         nama_lengkap: '#nama_lengkap',
         id_kategori: '#id_kategori',
         id_kelas: '#id_kelas',
         no_hp: '#no_hp',
         alamat: '#alamat',
+        tahun_ajaran: '#tahun_ajaran',
     };
 
     const hitUrl = ({
@@ -229,11 +258,13 @@
 
     const setFieldForm = (data) => {
         $(modal.update + ' ' + field.id).val(data.id);
+        $(modal.update + ' ' + field.nisn).val(data.nisn);
         $(modal.update + ' ' + field.nama_lengkap).val(data.nama_lengkap);
         $(modal.update + ' ' + field.id_kategori).val(data.id_kategori);
         $(modal.update + ' ' + field.id_kelas).val(data.id_kelas);
         $(modal.update + ' ' + field.no_hp).val(data.no_hp);
         $(modal.update + ' ' + field.alamat).val(data.alamat);
+        $(modal.update + ' ' + field.tahun_ajaran).val(data.tahun_ajaran);
     }
 
     const deleteData = (id) => {

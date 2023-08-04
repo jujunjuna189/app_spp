@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class SiswaModel extends CI_Model
+class BarangKategoriModel extends CI_Model
 {
-    private $table = 'siswa';
+    private $table = 'barang_kategori';
 
     public function store($data)
     {
@@ -21,20 +21,6 @@ class SiswaModel extends CI_Model
     {
         $query = $this->db->get_where($this->table, ['id' => $id]);
         return $query->result()[0];
-    }
-
-    public function getBySearch($search)
-    {
-        $this->db->select('*');
-        $this->db->from($this->table);
-        $this->db->like('nama_lengkap', $search);
-        return $this->db->get()->result();
-    }
-
-    public function getWhere($where)
-    {
-        $query = $this->db->get_where($this->table, $where);
-        return $query->result();
     }
 
     public function update($id, $data)
